@@ -17,7 +17,15 @@ public class СommissionService {
         return commissionRepository.findAll();
     }
 
+    public Сommission getByName(String name) {
+        return commissionRepository.getByName(name);
+    }
+
     public void save(Сommission commission) {
         commissionRepository.save(commission);
+    }
+
+    public void delete(String name) {
+        commissionRepository.deleteById(name);
     }
 }

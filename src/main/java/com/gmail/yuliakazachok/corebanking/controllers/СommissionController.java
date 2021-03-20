@@ -20,8 +20,18 @@ public class СommissionController {
         return commissionService.getAll();
     }
 
+    @GetMapping("/{name}")
+    public Сommission getByName(@PathVariable String name) {
+        return commissionService.getByName(name);
+    }
+
     @PostMapping
     public void save(@RequestBody Сommission commission) {
         commissionService.save(commission);
+    }
+
+    @DeleteMapping("/{name}")
+    public void delete(@PathVariable String name) {
+        commissionService.delete(name);
     }
 }
