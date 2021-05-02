@@ -20,9 +20,9 @@ public class СommissionController {
         return commissionService.getAll();
     }
 
-    @GetMapping("/{name}")
-    public Сommission getByName(@PathVariable String name) {
-        return commissionService.getByName(name);
+    @GetMapping("/{id}")
+    public Сommission getById(@PathVariable Integer id) {
+        return commissionService.getById(id).get();
     }
 
     @PostMapping
@@ -30,8 +30,8 @@ public class СommissionController {
         commissionService.save(commission);
     }
 
-    @DeleteMapping("/{name}")
-    public void delete(@PathVariable String name) {
-        commissionService.delete(name);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        commissionService.delete(id);
     }
 }

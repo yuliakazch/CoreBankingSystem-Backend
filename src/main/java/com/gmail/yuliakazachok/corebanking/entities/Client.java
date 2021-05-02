@@ -31,7 +31,14 @@ public class Client {
     @Column(name = "place")
     private String place;
 
-    @Column(name = "is_locked")
-    @JsonProperty("is_locked")
-    private Boolean isLocked;
+    @Column(name = "is_credit")
+    @JsonProperty("is_credit")
+    private Boolean isCredit;
+
+    @Column(name = "is_tariff")
+    @JsonProperty("is_tariff")
+    private Boolean isTariff;
+
+    @Column(name = "count_block_days")
+    private Integer countBlockDays;
 }
