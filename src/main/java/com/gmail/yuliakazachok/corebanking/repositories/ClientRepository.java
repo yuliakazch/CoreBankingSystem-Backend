@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    @Query("select c from Client c where c.numberPassport = :number_passport")
-    Client getByPassport(@Param("number_passport") Long numberPassport);
+    /*@Query("select c from Client c where c.numberPassport = :number_passport")
+    Client getByPassport(@Param("number_passport") Long numberPassport);*/
 }

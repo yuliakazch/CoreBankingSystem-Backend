@@ -40,5 +40,6 @@ public class Client {
     private Boolean isTariff;
 
     @Column(name = "count_block_days")
+    @JsonProperty("count_block_days")
     private Integer countBlockDays;
 }

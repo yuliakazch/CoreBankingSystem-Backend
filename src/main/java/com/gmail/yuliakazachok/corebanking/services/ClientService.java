@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +18,8 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client getByPassport(Long numberPassport) {
-        return clientRepository.getByPassport(numberPassport);
+    public Optional<Client> getByPassport(Long numberPassport) {
+        return clientRepository.findById(numberPassport);
     }
 
     public void save(Client client) {
