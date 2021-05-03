@@ -1,6 +1,7 @@
 package com.gmail.yuliakazachok.corebanking.services;
 
 import com.gmail.yuliakazachok.corebanking.entities.Client;
+import com.gmail.yuliakazachok.corebanking.entities.ClientFilters;
 import com.gmail.yuliakazachok.corebanking.repositories.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,14 @@ public class ClientService {
 
     public void save(Client client) {
         clientRepository.save(client);
+    }
+
+    public List<Client> search(ClientFilters filters) {
+        if (filters.getFio() == null) {
+            return clientRepository.searchByParams(filters);
+        } else {
+            return clientRepository.searchByParamsWithFio(filters);
+        }
     }
 
     public void delete(Long numberPassport) {

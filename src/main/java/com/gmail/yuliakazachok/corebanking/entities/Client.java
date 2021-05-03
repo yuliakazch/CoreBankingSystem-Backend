@@ -24,22 +24,13 @@ public class Client {
     private String fio;
 
     @Column(name = "date_birth")
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonProperty("date_birth")
     private Date dateBirth;
 
     @Column(name = "place")
     private String place;
 
-    @Column(name = "is_credit")
-    @JsonProperty("is_credit")
-    private Boolean isCredit;
-
-    @Column(name = "is_tariff")
-    @JsonProperty("is_tariff")
-    private Boolean isTariff;
-
-    @Column(name = "count_block_days")
-    @JsonProperty("count_block_days")
-    private Integer countBlockDays;
+    @Column(name = "state")
+    private Integer state;
 }

@@ -1,6 +1,7 @@
 package com.gmail.yuliakazachok.corebanking.controllers;
 
 import com.gmail.yuliakazachok.corebanking.entities.Client;
+import com.gmail.yuliakazachok.corebanking.entities.ClientFilters;
 import com.gmail.yuliakazachok.corebanking.services.ClientService;
 import com.gmail.yuliakazachok.corebanking.utils.paths.ClientPaths;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class ClientController {
     @PostMapping
     public void save(@RequestBody Client client) {
         clientService.save(client);
+    }
+
+    @PostMapping("/search")
+    public List<Client> search(@RequestBody ClientFilters filters) {
+        return clientService.search(filters);
     }
 
     @DeleteMapping("/{numberPassport}")
