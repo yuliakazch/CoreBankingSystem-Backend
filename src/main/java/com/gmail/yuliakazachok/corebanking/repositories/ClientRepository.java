@@ -20,4 +20,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("select c from Client c where ((:#{#filters.year}) is null or extract(year from c.dateBirth) = :#{#filters.year}) " +
             "and ((:#{#filters.state}) is null or c.state in (:#{#filters.state}))")
     List<Client> searchByParams(@Param("filters") ClientFilters filters);
+
+    @Query("select c from Client c where c.state = :state")
+    List<Client> findAllByState(Integer state);
 }

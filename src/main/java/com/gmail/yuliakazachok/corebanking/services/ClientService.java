@@ -5,6 +5,7 @@ import com.gmail.yuliakazachok.corebanking.entities.ClientFilters;
 import com.gmail.yuliakazachok.corebanking.repositories.ClientRepository;
 import com.gmail.yuliakazachok.corebanking.utils.ClientStates;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,5 +49,18 @@ public class ClientService {
 
     public void delete(Long numberPassport) {
         clientRepository.deleteById(numberPassport);
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 0 0 * * *")
+    public void decBlockDay() {
+        clientRepository.findAllByState(ClientStates.STATE_BLOCKED.ordinal()).forEach(client -> {
+                    int newCountDays = client.getCountBlockDays() - 1;
+                    client.setCountBlockDays(newCountDays);
+                    if (newCountDays == 0) {
+                        client.setState(ClientStates.STATE_YES_CREDIT.ordinal());
+                    }
+                }
+        );
     }
 }
