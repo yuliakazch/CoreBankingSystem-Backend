@@ -3,8 +3,10 @@ package com.gmail.yuliakazachok.corebanking.services;
 import com.gmail.yuliakazachok.corebanking.entities.Client;
 import com.gmail.yuliakazachok.corebanking.entities.ClientFilters;
 import com.gmail.yuliakazachok.corebanking.repositories.ClientRepository;
+import com.gmail.yuliakazachok.corebanking.utils.ClientStates;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,15 @@ public class ClientService {
 
     public Optional<Client> getByPassport(Long numberPassport) {
         return clientRepository.findById(numberPassport);
+    }
+
+    @Transactional
+    public void block(Long number, Integer countDays) {
+        clientRepository.findById(number).ifPresent(client -> {
+                    client.setCountBlockDays(countDays);
+                    client.setState(ClientStates.STATE_BLOCKED.ordinal());
+                }
+        );
     }
 
     public void save(Client client) {

@@ -26,6 +26,11 @@ public class ClientController {
         return clientService.getByPassport(numberPassport).get();
     }
 
+    @GetMapping("/block")
+    public void block(@RequestParam("number") Long number, @RequestParam("days") Integer countDays) {
+        clientService.block(number, countDays);
+    }
+
     @PostMapping
     public void save(@RequestBody Client client) {
         clientService.save(client);

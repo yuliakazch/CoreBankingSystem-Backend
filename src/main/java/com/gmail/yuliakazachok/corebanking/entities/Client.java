@@ -33,4 +33,8 @@ public class Client {
 
     @Column(name = "state")
     private Integer state;
+
+    @Column(name = "count_block_days")
+    @JsonProperty("count_block_days")
+    private Integer countBlockDays;
 }
