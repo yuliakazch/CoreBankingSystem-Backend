@@ -4,6 +4,12 @@ import com.gmail.yuliakazachok.corebanking.entities.Tariff;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TariffRepository extends JpaRepository<Tariff, Integer> {
+
+    List<Tariff> findAllByIdIn(List<Integer> ids);
+
+    List<Tariff> findAllByIdNotIn(List<Integer> ids);
 }
