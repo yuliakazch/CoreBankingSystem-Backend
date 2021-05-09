@@ -22,8 +22,8 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Optional<Client> getByPassport(Long numberPassport) {
-        return clientRepository.findById(numberPassport);
+    public Client getByPassport(Long numberPassport) {
+        return clientRepository.findById(numberPassport).get();
     }
 
     @Transactional

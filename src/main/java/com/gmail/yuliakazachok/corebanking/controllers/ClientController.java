@@ -23,7 +23,7 @@ public class ClientController {
 
     @GetMapping("/{numberPassport}")
     public Client getByPassport(@PathVariable Long numberPassport) {
-        return clientService.getByPassport(numberPassport).get();
+        return clientService.getByPassport(numberPassport);
     }
 
     @GetMapping("/block")
