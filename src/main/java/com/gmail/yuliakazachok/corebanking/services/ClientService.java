@@ -9,8 +9,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,11 +41,25 @@ public class ClientService {
     }
 
     public List<Client> search(ClientFilters filters) {
-        if (filters.getFio() == null) {
-            return clientRepository.searchByParams(filters);
-        } else {
-            return clientRepository.searchByParamsWithFio(filters);
+        String fio = filters.getFio();
+        Integer year = filters.getYear();
+        Date dateAfter;
+        Date dateBefore;
+        List<Integer> state = filters.getState();
+        if (fio == null) {
+            fio = "";
         }
+        if (year == null) {
+            dateAfter = Date.valueOf(LocalDate.of(1900, 1, 1));
+            dateBefore = Date.valueOf(LocalDate.now());
+        } else {
+            dateAfter = Date.valueOf(LocalDate.of(year, 1, 1));
+            dateBefore = Date.valueOf(LocalDate.of(year + 1, 1, 1));
+        }
+        if (state == null) {
+            state = List.of(0, 1, 2, 3);
+        }
+        return clientRepository.findAllByDateBirthAfterAndDateBirthBeforeAndFioContainingIgnoreCaseAndStateIn(dateAfter, dateBefore, fio, state);
     }
 
     public void delete(Long numberPassport) {
