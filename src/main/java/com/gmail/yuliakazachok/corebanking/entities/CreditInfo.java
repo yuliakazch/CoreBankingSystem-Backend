@@ -35,4 +35,6 @@ public class CreditInfo {
         this.sum = sum;
         this.state = state;
     }
+
+    public CreditInfo() {}
 }

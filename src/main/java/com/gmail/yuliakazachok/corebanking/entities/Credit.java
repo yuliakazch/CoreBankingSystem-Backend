@@ -34,4 +34,14 @@ public class Credit {
 
     @Column(name = "state")
     private Integer state;
+
+    public Credit(Integer idAvailTariff, Date dateOpen, Integer term, Integer sum, Integer state) {
+        this.idAvailTariff = idAvailTariff;
+        this.dateOpen = dateOpen;
+        this.term = term;
+        this.sum = sum;
+        this.state = state;
+    }
+
+    public Credit() {}
 }

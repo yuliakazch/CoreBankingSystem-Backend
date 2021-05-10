@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface CreditRepository extends JpaRepository<Credit, Integer> {
 
     Optional<Credit> findCreditByStateAndIdAvailTariffIn(Integer state, List<Integer> ids);
+
+    List<Credit> findAllByStateAndIdAvailTariffIn(Integer state, List<Integer> idsAvailTariff);
 }
