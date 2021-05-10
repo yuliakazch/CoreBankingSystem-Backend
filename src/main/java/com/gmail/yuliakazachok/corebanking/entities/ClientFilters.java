@@ -8,6 +8,8 @@ import java.util.List;
 public class ClientFilters {
 
     private String fio;
+
     private Integer year;
+
     private List<Integer> state;
 }
