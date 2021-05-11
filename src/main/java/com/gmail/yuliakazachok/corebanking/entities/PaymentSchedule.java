@@ -24,5 +24,13 @@ public class PaymentSchedule {
     private Date date;
 
     @Column(name = "sum")
-    private Integer sum;
+    private Float sum;
+
+    public PaymentSchedule(Integer idCredit, Date date, float sum) {
+        this.idCredit = idCredit;
+        this.date = date;
+        this.sum = sum;
+    }
+
+    public PaymentSchedule() {}
 }

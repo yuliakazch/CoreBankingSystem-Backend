@@ -28,5 +28,5 @@ public class Payment {
     private Integer idCommission;
 
     @Column(name = "sum")
-    private Integer sum;
+    private Float sum;
 }
