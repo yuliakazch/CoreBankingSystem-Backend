@@ -1,16 +1,15 @@
 package com.gmail.yuliakazachok.corebanking.controllers;
 
 import com.gmail.yuliakazachok.corebanking.entities.Client;
-import com.gmail.yuliakazachok.corebanking.entities.ClientFilters;
+import com.gmail.yuliakazachok.corebanking.dto.ClientFilters;
 import com.gmail.yuliakazachok.corebanking.services.ClientService;
-import com.gmail.yuliakazachok.corebanking.utils.paths.ClientPaths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(ClientPaths.CONTROLLER)
+@RequestMapping("/client")
 @RequiredArgsConstructor
 public class ClientController {
 

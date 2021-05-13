@@ -1,9 +1,11 @@
 package com.gmail.yuliakazachok.corebanking.services;
 
+import com.gmail.yuliakazachok.corebanking.dto.CreditCreate;
+import com.gmail.yuliakazachok.corebanking.dto.CreditInfo;
 import com.gmail.yuliakazachok.corebanking.entities.*;
 import com.gmail.yuliakazachok.corebanking.repositories.*;
-import com.gmail.yuliakazachok.corebanking.utils.ClientStates;
-import com.gmail.yuliakazachok.corebanking.utils.CreditStates;
+import com.gmail.yuliakazachok.corebanking.dto.ClientStates;
+import com.gmail.yuliakazachok.corebanking.dto.CreditStates;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,9 +59,7 @@ public class CreditService {
     private void createPaymentSchedule(Integer sum, Integer term, Integer rate, Date dateOpen, Integer idCredit) {
         float r = ((float) rate / 100 / 12);
         float sumMonth = (float) (sum * ((r * Math.pow(1 + r, term))/(Math.pow(1 + r, term) - 1)));
-        sumMonth = (float) Math.round(sumMonth * 100) / 100;
-        //double scale = Math.pow(10, 2);
-        //sumMonth = (float) (Math.ceil(sumMonth * scale) / scale);
+        sumMonth = (float) Math.round(sumMonth * 100f) / 100f;
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateOpen);

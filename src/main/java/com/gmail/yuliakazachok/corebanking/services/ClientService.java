@@ -1,9 +1,9 @@
 package com.gmail.yuliakazachok.corebanking.services;
 
 import com.gmail.yuliakazachok.corebanking.entities.Client;
-import com.gmail.yuliakazachok.corebanking.entities.ClientFilters;
+import com.gmail.yuliakazachok.corebanking.dto.ClientFilters;
 import com.gmail.yuliakazachok.corebanking.repositories.ClientRepository;
-import com.gmail.yuliakazachok.corebanking.utils.ClientStates;
+import com.gmail.yuliakazachok.corebanking.dto.ClientStates;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

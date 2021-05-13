@@ -1,14 +1,13 @@
 package com.gmail.yuliakazachok.corebanking.controllers;
 
-import com.gmail.yuliakazachok.corebanking.entities.CreditCreate;
-import com.gmail.yuliakazachok.corebanking.entities.CreditInfo;
+import com.gmail.yuliakazachok.corebanking.dto.CreditCreate;
+import com.gmail.yuliakazachok.corebanking.dto.CreditInfo;
 import com.gmail.yuliakazachok.corebanking.services.CreditService;
-import com.gmail.yuliakazachok.corebanking.utils.paths.CreditPaths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(CreditPaths.CONTROLLER)
+@RequestMapping("/credit")
 @RequiredArgsConstructor
 public class CreditController {
 

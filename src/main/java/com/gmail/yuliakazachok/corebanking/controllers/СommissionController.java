@@ -2,14 +2,13 @@ package com.gmail.yuliakazachok.corebanking.controllers;
 
 import com.gmail.yuliakazachok.corebanking.entities.Сommission;
 import com.gmail.yuliakazachok.corebanking.services.СommissionService;
-import com.gmail.yuliakazachok.corebanking.utils.paths.CommissionPaths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(CommissionPaths.CONTROLLER)
+@RequestMapping("/commission")
 @RequiredArgsConstructor
 public class СommissionController {
 

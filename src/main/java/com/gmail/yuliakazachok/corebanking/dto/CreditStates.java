@@ -1,4 +1,4 @@
-package com.gmail.yuliakazachok.corebanking.utils;
+package com.gmail.yuliakazachok.corebanking.dto;
 
 public enum CreditStates {
     STATE_CLOSE,

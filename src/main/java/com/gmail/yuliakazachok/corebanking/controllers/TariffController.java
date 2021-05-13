@@ -3,14 +3,13 @@ package com.gmail.yuliakazachok.corebanking.controllers;
 import com.gmail.yuliakazachok.corebanking.entities.AvailableTariff;
 import com.gmail.yuliakazachok.corebanking.entities.Tariff;
 import com.gmail.yuliakazachok.corebanking.services.TariffService;
-import com.gmail.yuliakazachok.corebanking.utils.paths.TariffPaths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(TariffPaths.CONTROLLER)
+@RequestMapping("/tariff")
 @RequiredArgsConstructor
 public class TariffController {
 

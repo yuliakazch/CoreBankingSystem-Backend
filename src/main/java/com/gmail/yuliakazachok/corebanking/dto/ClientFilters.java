@@ -1,4 +1,4 @@
-package com.gmail.yuliakazachok.corebanking.entities;
+package com.gmail.yuliakazachok.corebanking.dto;
 
 import lombok.Data;
 

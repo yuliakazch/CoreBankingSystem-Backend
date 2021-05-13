@@ -1,4 +1,4 @@
-package com.gmail.yuliakazachok.corebanking.entities;
+package com.gmail.yuliakazachok.corebanking.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

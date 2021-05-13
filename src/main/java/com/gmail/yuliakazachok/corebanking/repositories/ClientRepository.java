@@ -14,5 +14,4 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     List<Client> findAllByDateBirthAfterAndDateBirthBeforeAndFioContainingIgnoreCaseAndStateIn(Date dateAfter, Date dateBefore, String fio, List<Integer> state);
 
-
 }
