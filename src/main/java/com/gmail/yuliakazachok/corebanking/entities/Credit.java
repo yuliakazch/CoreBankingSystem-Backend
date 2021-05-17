@@ -2,6 +2,7 @@ package com.gmail.yuliakazachok.corebanking.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gmail.yuliakazachok.corebanking.dto.CreditStates;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -32,10 +33,14 @@ public class Credit {
     @Column(name = "sum")
     private Integer sum;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "state")
-    private Integer state;
+    private CreditStates state;
 
-    public Credit(Integer idAvailTariff, Date dateOpen, Integer term, Integer sum, Integer state) {
+    @Column(name = "balance")
+    private Integer balance;
+
+    public Credit(Integer idAvailTariff, Date dateOpen, Integer term, Integer sum, CreditStates state) {
         this.idAvailTariff = idAvailTariff;
         this.dateOpen = dateOpen;
         this.term = term;

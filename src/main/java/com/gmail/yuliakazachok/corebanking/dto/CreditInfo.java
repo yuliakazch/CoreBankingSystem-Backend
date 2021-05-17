@@ -24,9 +24,9 @@ public class CreditInfo {
 
     private Integer sum;
 
-    private Integer state;
+    private CreditStates state;
 
-    public CreditInfo(Integer id, Long numberPassport, Date dateOpen, Integer rate, Integer term, Integer sum, Integer state) {
+    public CreditInfo(Integer id, Long numberPassport, Date dateOpen, Integer rate, Integer term, Integer sum, CreditStates state) {
         this.id = id;
         this.numberPassport = numberPassport;
         this.dateOpen = dateOpen;

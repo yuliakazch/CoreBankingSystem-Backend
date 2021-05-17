@@ -11,5 +11,5 @@ public class ClientFilters {
 
     private Integer year;
 
-    private List<Integer> state;
+    private List<ClientStates> state;
 }

@@ -2,12 +2,10 @@ package com.gmail.yuliakazachok.corebanking.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gmail.yuliakazachok.corebanking.dto.ClientStates;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Data
@@ -31,8 +29,9 @@ public class Client {
     @Column(name = "place")
     private String place;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "state")
-    private Integer state;
+    private ClientStates state;
 
     @Column(name = "count_block_days")
     @JsonProperty("count_block_days")

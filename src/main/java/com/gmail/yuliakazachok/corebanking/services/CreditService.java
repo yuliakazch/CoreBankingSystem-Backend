@@ -29,7 +29,7 @@ public class CreditService {
     public CreditInfo getActiveCreditByPassport(Long numberPassport) {
         List<AvailableTariff> listAvailableTariff = availableTariffRepository.findAllByNumberPassport(numberPassport);
         List<Integer> listIds = listAvailableTariff.stream().map(AvailableTariff::getId).collect(Collectors.toList());
-        Credit credit = creditRepository.findCreditByStateAndIdAvailTariffIn(CreditStates.STATE_ACTIVE.ordinal(), listIds).get();
+        Credit credit = creditRepository.findCreditByStateAndIdAvailTariffIn(CreditStates.STATE_ACTIVE, listIds).get();
         AvailableTariff availableTariff = availableTariffRepository.findById(credit.getIdAvailTariff()).get();
         Tariff tariff = tariffRepository.findById(availableTariff.getIdTariff()).get();
         return new CreditInfo(credit.getId(), numberPassport, credit.getDateOpen(), tariff.getRate(), credit.getTerm(), credit.getSum(), credit.getState());
@@ -45,12 +45,12 @@ public class CreditService {
         if (sum >= tariff.getMinSum() && sum <= tariff.getMaxSum() && term >= tariff.getMinTerm() && term <= tariff.getMaxTerm()) {
             List<Integer> idsAvailTariffs = availableTariffRepository.findAllByNumberPassport(numberPassport)
                     .stream().map(AvailableTariff::getId).collect(Collectors.toList());
-            List<Credit> listCredits = creditRepository.findAllByStateAndIdAvailTariffIn(CreditStates.STATE_ACTIVE.ordinal(), idsAvailTariffs);
+            List<Credit> listCredits = creditRepository.findAllByStateAndIdAvailTariffIn(CreditStates.STATE_ACTIVE, idsAvailTariffs);
             if (listCredits.isEmpty()) {
                 Integer idAvailTariff = availableTariffRepository
                         .findByNumberPassportAndIdTariff(numberPassport, creditCreate.getIdTariff()).getId();
-                Credit newCredit = creditRepository.save(new Credit(idAvailTariff, dateOpen, term, sum, CreditStates.STATE_ACTIVE.ordinal()));
-                clientRepository.findById(numberPassport).ifPresent(client -> client.setState(ClientStates.STATE_YES_CREDIT.ordinal()));
+                Credit newCredit = creditRepository.save(new Credit(idAvailTariff, dateOpen, term, sum, CreditStates.STATE_ACTIVE));
+                clientRepository.findById(numberPassport).ifPresent(client -> client.setState(ClientStates.STATE_YES_CREDIT));
                 createPaymentSchedule(sum, term, tariff.getRate(), dateOpen, newCredit.getId());
             }
         }

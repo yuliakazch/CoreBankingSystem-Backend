@@ -54,8 +54,8 @@ public class TariffService {
     public void saveAvailableTariff(AvailableTariff availableTariff) {
         availableTariffRepository.save(availableTariff);
         clientRepository.findById(availableTariff.getNumberPassport()).ifPresent(client -> {
-                    if (client.getState() == ClientStates.STATE_NOT_TARIFF.ordinal()) {
-                        client.setState(ClientStates.STATE_NOT_CREDIT.ordinal());
+                    if (client.getState() == ClientStates.STATE_NOT_TARIFF) {
+                        client.setState(ClientStates.STATE_NOT_CREDIT);
                     }
                 }
         );

@@ -16,4 +16,8 @@ public class PaymentService {
     public List<Payment> getPaymentsByIdCredit(Integer idCredit) {
         return paymentRepository.findAllByIdCreditOrderByDate(idCredit);
     }
+
+    public void savePayment(Payment payment) {
+
+    }
 }

@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public class ClientService {
     public void block(Long number, Integer countDays) {
         clientRepository.findById(number).ifPresent(client -> {
                     client.setCountBlockDays(countDays);
-                    client.setState(ClientStates.STATE_BLOCKED.ordinal());
+                    client.setState(ClientStates.STATE_BLOCKED);
                 }
         );
     }
@@ -45,7 +47,7 @@ public class ClientService {
         Integer year = filters.getYear();
         Date dateAfter;
         Date dateBefore;
-        List<Integer> state = filters.getState();
+        List<ClientStates> state = filters.getState();
         if (fio == null) {
             fio = "";
         }
@@ -57,7 +59,7 @@ public class ClientService {
             dateBefore = Date.valueOf(LocalDate.of(year + 1, 1, 1));
         }
         if (state == null) {
-            state = List.of(0, 1, 2, 3);
+            state = Arrays.stream(ClientStates.values()).collect(Collectors.toList());
         }
         return clientRepository.findAllByDateBirthAfterAndDateBirthBeforeAndFioContainingIgnoreCaseAndStateIn(dateAfter, dateBefore, fio, state);
     }
@@ -73,7 +75,7 @@ public class ClientService {
                     int newCountDays = client.getCountBlockDays() - 1;
                     client.setCountBlockDays(newCountDays);
                     if (newCountDays == 0) {
-                        client.setState(ClientStates.STATE_YES_CREDIT.ordinal());
+                        client.setState(ClientStates.STATE_YES_CREDIT);
                     }
                 }
         );
