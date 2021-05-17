@@ -1,5 +1,6 @@
 package com.gmail.yuliakazachok.corebanking.repositories;
 
+import com.gmail.yuliakazachok.corebanking.dto.PaymentScheduleStates;
 import com.gmail.yuliakazachok.corebanking.entities.KeyPayment;
 import com.gmail.yuliakazachok.corebanking.entities.PaymentSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,6 @@ import java.util.List;
 public interface PaymentScheduleRepository extends JpaRepository<PaymentSchedule, KeyPayment> {
 
     List<PaymentSchedule> findAllByIdCreditOrderByDate(Integer idCredit);
+
+    List<PaymentSchedule> findAllByIdCreditAndStateInOrderByDate(Integer idCredit, List<PaymentScheduleStates> states);
 }

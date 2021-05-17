@@ -38,7 +38,7 @@ public class Credit {
     private CreditStates state;
 
     @Column(name = "balance")
-    private Integer balance;
+    private Float balance;
 
     public Credit(Integer idAvailTariff, Date dateOpen, Integer term, Integer sum, CreditStates state) {
         this.idAvailTariff = idAvailTariff;
