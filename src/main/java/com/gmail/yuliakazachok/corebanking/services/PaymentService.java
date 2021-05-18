@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,9 +32,7 @@ public class PaymentService {
     @Transactional
     public void savePayment(Payment payment) {
         Integer idCredit = payment.getIdCredit();
-        int countMadePayments = 0;
         List<PaymentSchedule> listNeedPayments = getRestPayments(idCredit);
-
         Optional<Credit> optionalCredit = creditRepository.findById(idCredit);
         if (optionalCredit.isPresent()) {
             Credit credit = optionalCredit.get();
@@ -41,38 +40,34 @@ public class PaymentService {
             if (listNeedPayments.isEmpty()) {
                 addRestSumToBalance(credit, sumReceived);
             } else {
-                float restNotPaidSum = 0.0f;
-                boolean isFirstPaymentOnTime = true;
+                int countMadePayments = 0;
+                int countEarlyPayments = 0;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(payment.getDate());
+                calendar.add(Calendar.MONTH, 1);
+                long timePaymentAddMonth = calendar.getTime().getTime();
                 for (PaymentSchedule paymentSchedule : listNeedPayments) {
-                    if (paymentSchedule.getSum() >= sumReceived) {
-                        if (paymentSchedule.getState() == PaymentScheduleStates.STATE_MISSED) {
-                            // платим просрочку
-                            sumReceived = markPayment(paymentSchedule, sumReceived);
-                            ++countMadePayments;
-                        } else if (paymentSchedule.getState() == PaymentScheduleStates.STATE_NOT_PAID && isFirstPaymentOnTime) {
-                            // платим за текущий месяц
-                            isFirstPaymentOnTime = false;
-                            sumReceived = markPayment(paymentSchedule, sumReceived);
-                            ++countMadePayments;
-                        } else {
-                            // платим досрочно
-                            restNotPaidSum += paymentSchedule.getSum(); // TODO: считается не весь остаток!
+                    if (paymentSchedule.getSum() <= sumReceived) {
+                        long timeSchedule = paymentSchedule.getDate().getTime();
+                        sumReceived = markPayment(paymentSchedule, sumReceived);
+                        ++countMadePayments;
+                        if (timeSchedule > timePaymentAddMonth) {
+                            // если досрочный платеж, считаем их количество
+                            ++countEarlyPayments;
                         }
                     } else {
-                        if (restNotPaidSum == 0.0f) {
-                            // если не достаточно средств для платежа по графику, закидываем на баланс кредита
-                            addRestSumToBalance(credit, sumReceived);
-                        } else {
-                            // если есть средства на досрочный платеж, то пересчитываем остаток долга
-                            restNotPaidSum += paymentSchedule.getSum();
-                            recalculatePaymentSchedule(credit, restNotPaidSum - sumReceived, listNeedPayments, countMadePayments);
-                        }
-                        // если выплатили все платежи, закрываем кредит
-                        if (countMadePayments == listNeedPayments.size()) {
-                            closeCredit(credit);
-                        }
+                        // если недостаточно средств для платежа, закидываем на баланс кредита
+                        addRestSumToBalance(credit, sumReceived);
                         break;
                     }
+                }
+                // если оплатили досрочно, то пересчитываем остаток долга
+                if (countEarlyPayments != 0) {
+                    recalculatePaymentSchedule(credit, listNeedPayments, countMadePayments, countEarlyPayments);
+                }
+                // если выплатили все платежи, закрываем кредит
+                if (countMadePayments == listNeedPayments.size()) {
+                    closeCredit(credit);
                 }
             }
         }
@@ -100,27 +95,34 @@ public class PaymentService {
         return sumReceived - paymentSchedule.getSum();
     }
 
-    private void recalculatePaymentSchedule(Credit credit, Float sum, List<PaymentSchedule> paymentScheduleList, Integer countMadePayments) {
-        AvailableTariff availableTariff = availableTariffRepository.findById(credit.getIdAvailTariff()).get();
-        Tariff tariff = tariffRepository.findById(availableTariff.getIdTariff()).get();
+    private void recalculatePaymentSchedule(Credit credit, List<PaymentSchedule> paymentScheduleList, Integer countMadePayments, Integer countEarlyPayments) {
+        Optional<AvailableTariff> availableTariff = availableTariffRepository.findById(credit.getIdAvailTariff());
+        if (availableTariff.isPresent()) {
+            Optional<Tariff> tariff = tariffRepository.findById(availableTariff.get().getIdTariff());
+            if (tariff.isPresent()) {
+                float sum = 0.0f;
+                for (int i = countMadePayments; i < paymentScheduleList.size(); i++) {
+                    sum += paymentScheduleList.get(i).getSum();
+                }
+                float r = ((float) tariff.get().getRate() / 100 / 12);
+                int term = paymentScheduleList.size() - (countMadePayments - countEarlyPayments);
+                float sumMonth = (float) (sum * ((r * Math.pow(1 + r, term)) / (Math.pow(1 + r, term) - 1)));
+                sumMonth = (float) Math.round(sumMonth * 100f) / 100f;
 
-        float r = ((float) tariff.getRate() / 100 / 12);
-        int term = paymentScheduleList.size() - countMadePayments;
-        float sumMonth = (float) (sum * ((r * Math.pow(1 + r, term)) / (Math.pow(1 + r, term) - 1)));
-        sumMonth = (float) Math.round(sumMonth * 100f) / 100f;
-
-        for (int i = countMadePayments; i < paymentScheduleList.size(); i++) {
-            paymentScheduleList.get(i).setSum(sumMonth);
+                for (int i = countMadePayments; i < paymentScheduleList.size(); i++) {
+                    paymentScheduleList.get(i).setSum(sumMonth);
+                }
+            }
         }
     }
 
     private void closeCredit(Credit credit) {
         credit.setState(CreditStates.STATE_CLOSE);
-        availableTariffRepository.findById(credit.getIdAvailTariff()).ifPresent(availableTariff -> {
-            clientRepository.findById(availableTariff.getNumberPassport()).ifPresent(client -> {
-                client.setState(ClientStates.STATE_NOT_CREDIT);
-                client.setCountBlockDays(0);
-            });
-        });
+        availableTariffRepository.findById(credit.getIdAvailTariff())
+                .flatMap(availableTariff -> clientRepository.findById(availableTariff.getNumberPassport()))
+                .ifPresent(client -> {
+                    client.setState(ClientStates.STATE_NOT_CREDIT);
+                    client.setCountBlockDays(0);
+                });
     }
 }

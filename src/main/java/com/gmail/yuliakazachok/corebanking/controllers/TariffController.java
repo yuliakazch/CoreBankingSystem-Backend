@@ -22,7 +22,7 @@ public class TariffController {
 
     @GetMapping("/{id}")
     public Tariff getById(@PathVariable Integer id) {
-        return tariffService.getById(id).get();
+        return tariffService.getById(id);
     }
 
     @GetMapping("/availabletariff/{numberPassport}")

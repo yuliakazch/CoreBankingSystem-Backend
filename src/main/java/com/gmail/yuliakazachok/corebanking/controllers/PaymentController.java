@@ -3,10 +3,9 @@ package com.gmail.yuliakazachok.corebanking.controllers;
 import com.gmail.yuliakazachok.corebanking.entities.Payment;
 import com.gmail.yuliakazachok.corebanking.services.PaymentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/payment")
@@ -14,6 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController {
 
     private final PaymentService paymentService;
+
+    @GetMapping("/{id}")
+    public List<Payment> getPaymentsByIdCredit(@PathVariable Integer id) {
+        return paymentService.getPaymentsByIdCredit(id);
+    }
 
     @PostMapping
     public void savePayment(@RequestBody Payment payment) {
