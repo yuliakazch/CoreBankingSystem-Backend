@@ -74,7 +74,7 @@ public class PaymentService {
     }
 
     private float getSumWithoutCommission(float sumWithCommission, int idCommission) {
-        int interest = commissionRepository.findById(idCommission).get().getInterest();
+        int interest = commissionRepository.findCommissionById(idCommission).getInterest();
         return sumWithCommission * (100 - interest) * 0.01f;
     }
 

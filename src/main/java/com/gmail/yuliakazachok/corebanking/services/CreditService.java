@@ -29,15 +29,15 @@ public class CreditService {
     public CreditInfo getActiveCreditByPassport(Long numberPassport) {
         List<AvailableTariff> listAvailableTariff = availableTariffRepository.findAllByNumberPassport(numberPassport);
         List<Integer> listIds = listAvailableTariff.stream().map(AvailableTariff::getId).collect(Collectors.toList());
-        Credit credit = creditRepository.findCreditByStateAndIdAvailTariffIn(CreditStates.STATE_ACTIVE, listIds).get();
-        AvailableTariff availableTariff = availableTariffRepository.findById(credit.getIdAvailTariff()).get();
-        Tariff tariff = tariffRepository.findById(availableTariff.getIdTariff()).get();
+        Credit credit = creditRepository.findCreditByStateAndIdAvailTariffIn(CreditStates.STATE_ACTIVE, listIds);
+        AvailableTariff availableTariff = availableTariffRepository.findAvailableTariffById(credit.getIdAvailTariff());
+        Tariff tariff = tariffRepository.findTariffById(availableTariff.getIdTariff());
         return new CreditInfo(credit.getId(), numberPassport, credit.getDateOpen(), tariff.getRate(), credit.getTerm(), credit.getSum(), credit.getState());
     }
 
     @Transactional
     public void saveCredit(CreditCreate creditCreate) {
-        Tariff tariff = tariffRepository.findById(creditCreate.getIdTariff()).get();
+        Tariff tariff = tariffRepository.findTariffById(creditCreate.getIdTariff());
         Integer sum = creditCreate.getSum();
         Integer term = creditCreate.getTerm();
         Long numberPassport = creditCreate.getNumberPassport();

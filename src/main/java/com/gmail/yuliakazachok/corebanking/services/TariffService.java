@@ -27,7 +27,7 @@ public class TariffService {
     }
 
     public Tariff getById(Integer id) {
-        return tariffRepository.findById(id).get();
+        return tariffRepository.findTariffById(id);
     }
 
     public List<Tariff> getAllTariffsByPassport(Long numberPassport) {

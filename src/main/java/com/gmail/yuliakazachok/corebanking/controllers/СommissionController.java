@@ -21,7 +21,7 @@ public class СommissionController {
 
     @GetMapping("/{id}")
     public Сommission getById(@PathVariable Integer id) {
-        return commissionService.getById(id).get();
+        return commissionService.getById(id);
     }
 
     @PostMapping

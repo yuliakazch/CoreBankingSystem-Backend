@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface AvailableTariffRepository extends JpaRepository<AvailableTariff, Integer> {
 
+    AvailableTariff findAvailableTariffById(Integer id);
+
     List<AvailableTariff> findAllByNumberPassport(Long numberPassport);
 
     AvailableTariff findByNumberPassportAndIdTariff(Long numberPassport, Integer idTariff);

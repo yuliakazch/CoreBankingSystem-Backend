@@ -18,8 +18,8 @@ public class СommissionService {
         return commissionRepository.findAll();
     }
 
-    public Optional<Сommission> getById(Integer id) {
-        return commissionRepository.findById(id);
+    public Сommission getById(Integer id) {
+        return commissionRepository.findCommissionById(id);
     }
 
     public void save(Сommission commission) {

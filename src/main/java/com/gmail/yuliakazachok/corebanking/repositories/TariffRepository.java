@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface TariffRepository extends JpaRepository<Tariff, Integer> {
 
+    Tariff findTariffById(Integer id);
+
     List<Tariff> findAllByIdIn(List<Integer> ids);
 
     List<Tariff> findAllByIdNotIn(List<Integer> ids);

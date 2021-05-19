@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
+    Client findClientByNumberPassport(Long numberPassport);
+
     List<Client> findAllByState(Integer state);
 
     List<Client> findAllByDateBirthAfterAndDateBirthBeforeAndFioContainingIgnoreCaseAndStateIn(Date dateAfter, Date dateBefore, String fio, List<ClientStates> state);
