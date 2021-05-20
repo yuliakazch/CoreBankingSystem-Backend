@@ -1,5 +1,6 @@
 package com.gmail.yuliakazachok.corebanking.dto;
 
+import com.gmail.yuliakazachok.corebanking.entities.states.ClientStates;
 import lombok.Data;
 
 import java.util.List;

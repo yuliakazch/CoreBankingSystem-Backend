@@ -3,7 +3,7 @@ package com.gmail.yuliakazachok.corebanking.services;
 import com.gmail.yuliakazachok.corebanking.entities.Client;
 import com.gmail.yuliakazachok.corebanking.dto.ClientFilters;
 import com.gmail.yuliakazachok.corebanking.repositories.ClientRepository;
-import com.gmail.yuliakazachok.corebanking.dto.ClientStates;
+import com.gmail.yuliakazachok.corebanking.entities.states.ClientStates;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -71,7 +71,7 @@ public class ClientService {
     @Transactional
     @Scheduled(cron = "0 0 0 * * *")
     public void decBlockDay() {
-        clientRepository.findAllByState(ClientStates.STATE_BLOCKED.ordinal()).forEach(client -> {
+        clientRepository.findAllByState(ClientStates.STATE_BLOCKED).forEach(client -> {
                     int newCountDays = client.getCountBlockDays() - 1;
                     client.setCountBlockDays(newCountDays);
                     if (newCountDays == 0) {

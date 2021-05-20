@@ -1,6 +1,6 @@
 package com.gmail.yuliakazachok.corebanking.repositories;
 
-import com.gmail.yuliakazachok.corebanking.dto.CreditStates;
+import com.gmail.yuliakazachok.corebanking.entities.states.CreditStates;
 import com.gmail.yuliakazachok.corebanking.entities.Credit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

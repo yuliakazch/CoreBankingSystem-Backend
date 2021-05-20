@@ -1,8 +1,8 @@
 package com.gmail.yuliakazachok.corebanking.services;
 
-import com.gmail.yuliakazachok.corebanking.dto.ClientStates;
-import com.gmail.yuliakazachok.corebanking.dto.CreditStates;
-import com.gmail.yuliakazachok.corebanking.dto.PaymentScheduleStates;
+import com.gmail.yuliakazachok.corebanking.entities.states.ClientStates;
+import com.gmail.yuliakazachok.corebanking.entities.states.CreditStates;
+import com.gmail.yuliakazachok.corebanking.entities.states.PaymentScheduleStates;
 import com.gmail.yuliakazachok.corebanking.entities.*;
 import com.gmail.yuliakazachok.corebanking.repositories.*;
 import lombok.RequiredArgsConstructor;

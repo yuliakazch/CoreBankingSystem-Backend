@@ -1,4 +1,4 @@
-package com.gmail.yuliakazachok.corebanking.dto;
+package com.gmail.yuliakazachok.corebanking.entities.states;
 
 public enum ClientStates {
     STATE_NOT_TARIFF,

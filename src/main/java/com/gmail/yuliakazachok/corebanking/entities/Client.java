@@ -2,7 +2,7 @@ package com.gmail.yuliakazachok.corebanking.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gmail.yuliakazachok.corebanking.dto.ClientStates;
+import com.gmail.yuliakazachok.corebanking.entities.states.ClientStates;
 import lombok.Data;
 
 import javax.persistence.*;

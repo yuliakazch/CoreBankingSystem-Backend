@@ -2,6 +2,7 @@ package com.gmail.yuliakazachok.corebanking.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gmail.yuliakazachok.corebanking.entities.states.CreditStates;
 import lombok.Data;
 
 import java.sql.Date;

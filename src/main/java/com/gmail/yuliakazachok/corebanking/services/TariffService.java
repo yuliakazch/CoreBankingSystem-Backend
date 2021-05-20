@@ -5,13 +5,12 @@ import com.gmail.yuliakazachok.corebanking.entities.Tariff;
 import com.gmail.yuliakazachok.corebanking.repositories.AvailableTariffRepository;
 import com.gmail.yuliakazachok.corebanking.repositories.ClientRepository;
 import com.gmail.yuliakazachok.corebanking.repositories.TariffRepository;
-import com.gmail.yuliakazachok.corebanking.dto.ClientStates;
+import com.gmail.yuliakazachok.corebanking.entities.states.ClientStates;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
