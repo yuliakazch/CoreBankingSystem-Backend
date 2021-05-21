@@ -30,7 +30,4 @@ public class User {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "role")
     private UserRole role;
-
-    @Column(name = "reset_phrase")
-    private String resetPhrase;
 }
