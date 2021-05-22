@@ -74,4 +74,10 @@ public class CreditService {
             paymentScheduleRepository.save(new PaymentSchedule(idCredit, date, sumMonth));
         }
     }
+
+    public List<Credit> getHistoryCredit(Long number) {
+        List<AvailableTariff> listAvailableTariff = availableTariffRepository.findAllByNumberPassport(number);
+        List<Integer> listIds = listAvailableTariff.stream().map(AvailableTariff::getId).collect(Collectors.toList());
+        return creditRepository.findAllByStateAndIdAvailTariffIn(CreditStates.STATE_CLOSE, listIds);
+    }
 }

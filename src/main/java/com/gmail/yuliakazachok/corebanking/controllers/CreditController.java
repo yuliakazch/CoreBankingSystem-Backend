@@ -2,9 +2,12 @@ package com.gmail.yuliakazachok.corebanking.controllers;
 
 import com.gmail.yuliakazachok.corebanking.dto.CreditCreate;
 import com.gmail.yuliakazachok.corebanking.dto.CreditInfo;
+import com.gmail.yuliakazachok.corebanking.entities.Credit;
 import com.gmail.yuliakazachok.corebanking.services.CreditService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/credit")
@@ -16,6 +19,11 @@ public class CreditController {
     @GetMapping("/active/{number}")
     public CreditInfo getActiveCreditByPassport(@PathVariable Long number) {
         return creditService.getActiveCreditByPassport(number);
+    }
+
+    @GetMapping("/history/{number}")
+    public List<Credit> getHistoryCredits(@PathVariable Long number) {
+        return creditService.getHistoryCredit(number);
     }
 
     @PostMapping
