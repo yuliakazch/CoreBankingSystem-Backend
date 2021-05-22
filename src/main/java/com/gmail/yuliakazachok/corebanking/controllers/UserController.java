@@ -7,10 +7,7 @@ import com.gmail.yuliakazachok.corebanking.entities.User;
 import com.gmail.yuliakazachok.corebanking.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -30,6 +27,9 @@ public class UserController {
     @PostMapping("/auth")
     public AuthResponse auth(@RequestBody AuthRequest request) {
         User user = userService.getUserByLoginAndPassword(request.getLogin(), request.getPassword());
+        if (user == null) {
+            throw new IllegalArgumentException("Неверные данные");
+        }
         String token = jwtProvider.generateToken(user.getLogin());
         return new AuthResponse(token);
     }

@@ -28,8 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/client/**", "/credit/**", "/payment/**").hasRole("SENIOR")
-                .antMatchers("/client/*").hasRole("MIDDLE")
-                .antMatchers("/tariff/*", "/commission/*", "/user/*").permitAll()
+                .antMatchers("/tariff/**").hasRole("MIDDLE")
+                .antMatchers("/commission/**", "/user/**").permitAll()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
