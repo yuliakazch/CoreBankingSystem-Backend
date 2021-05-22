@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +62,7 @@ public class CreditService {
 
     private void createPaymentSchedule(Integer sum, Integer term, Integer rate, Date dateOpen, Integer idCredit) {
         float r = ((float) rate / 100 / 12);
-        float sumMonth = (float) (sum * ((r * Math.pow(1 + r, term))/(Math.pow(1 + r, term) - 1)));
+        float sumMonth = (float) (sum * ((r * Math.pow(1 + r, term)) / (Math.pow(1 + r, term) - 1)));
         sumMonth = (float) Math.round(sumMonth * 100f) / 100f;
 
         Calendar calendar = Calendar.getInstance();
@@ -75,9 +77,25 @@ public class CreditService {
         }
     }
 
-    public List<Credit> getHistoryCredit(Long number) {
+    public List<CreditInfo> getHistoryCredit(Long number) {
         List<AvailableTariff> listAvailableTariff = availableTariffRepository.findAllByNumberPassport(number);
         List<Integer> listIds = listAvailableTariff.stream().map(AvailableTariff::getId).collect(Collectors.toList());
-        return creditRepository.findAllByStateAndIdAvailTariffIn(CreditStates.STATE_CLOSE, listIds);
+        List<Credit> listCredits = creditRepository.findAllByStateAndIdAvailTariffIn(CreditStates.STATE_CLOSE, listIds);
+        List<CreditInfo> listCreditInfo = new ArrayList<>(Collections.emptyList());
+        for (Credit credit: listCredits) {
+            AvailableTariff availableTariff = availableTariffRepository.findAvailableTariffById(credit.getIdAvailTariff());
+            Tariff tariff = tariffRepository.findTariffById(availableTariff.getIdTariff());
+            listCreditInfo.add(new CreditInfo(
+                    credit.getId(), availableTariff.getNumberPassport(), credit.getDateOpen(), tariff.getRate(), credit.getTerm(), credit.getSum(), credit.getState()
+            ));
+        }
+        return listCreditInfo;
+    }
+
+    public CreditInfo getCreditById(Integer id) {
+        Credit credit = creditRepository.findCreditById(id);
+        AvailableTariff availableTariff = availableTariffRepository.findAvailableTariffById(credit.getIdAvailTariff());
+        Tariff tariff = tariffRepository.findTariffById(availableTariff.getIdTariff());
+        return new CreditInfo(credit.getId(), availableTariff.getNumberPassport(), credit.getDateOpen(), tariff.getRate(), credit.getTerm(), credit.getSum(), credit.getState());
     }
 }

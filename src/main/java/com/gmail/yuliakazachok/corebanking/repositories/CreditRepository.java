@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface CreditRepository extends JpaRepository<Credit, Integer> {
 
+    Credit findCreditById(Integer id);
+
     Credit findCreditByStateAndIdAvailTariffIn(CreditStates state, List<Integer> ids);
 
     List<Credit> findAllByStateAndIdAvailTariffIn(CreditStates state, List<Integer> idsAvailTariff);

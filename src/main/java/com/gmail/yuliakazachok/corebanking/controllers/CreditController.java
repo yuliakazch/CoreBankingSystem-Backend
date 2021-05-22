@@ -21,8 +21,13 @@ public class CreditController {
         return creditService.getActiveCreditByPassport(number);
     }
 
+    @GetMapping("/{id}")
+    public CreditInfo getCreditById(@PathVariable Integer id) {
+        return creditService.getCreditById(id);
+    }
+
     @GetMapping("/history/{number}")
-    public List<Credit> getHistoryCredits(@PathVariable Long number) {
+    public List<CreditInfo> getHistoryCredits(@PathVariable Long number) {
         return creditService.getHistoryCredit(number);
     }
 

@@ -27,6 +27,8 @@ public class CreditInfo {
 
     private CreditStates state;
 
+    private Float balance;
+
     public CreditInfo(Integer id, Long numberPassport, Date dateOpen, Integer rate, Integer term, Integer sum, CreditStates state) {
         this.id = id;
         this.numberPassport = numberPassport;
@@ -35,6 +37,7 @@ public class CreditInfo {
         this.term = term;
         this.sum = sum;
         this.state = state;
+        this.balance = 0.0f;
     }
 
     public CreditInfo() {}
