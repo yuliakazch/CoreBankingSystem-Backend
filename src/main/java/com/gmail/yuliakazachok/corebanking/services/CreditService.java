@@ -53,6 +53,8 @@ public class CreditService {
                 clientRepository.findById(numberPassport).ifPresent(client -> client.setState(ClientStates.STATE_YES_CREDIT));
                 createPaymentSchedule(sum, term, tariff.getRate(), dateOpen, newCredit.getId());
             }
+        } else {
+            throw new IllegalArgumentException("Неверные параметры");
         }
     }
 

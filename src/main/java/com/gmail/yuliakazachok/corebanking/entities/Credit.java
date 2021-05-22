@@ -46,6 +46,7 @@ public class Credit {
         this.term = term;
         this.sum = sum;
         this.state = state;
+        this.balance = 0.0f;
     }
 
     public Credit() {}

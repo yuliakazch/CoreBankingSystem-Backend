@@ -34,6 +34,7 @@ public class PaymentSchedule {
         this.idCredit = idCredit;
         this.date = date;
         this.sum = sum;
+        this.state = PaymentScheduleStates.STATE_NOT_PAID;
     }
 
     public PaymentSchedule() {}
