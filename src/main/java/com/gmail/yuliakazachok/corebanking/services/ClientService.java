@@ -38,6 +38,15 @@ public class ClientService {
         );
     }
 
+    @Transactional
+    public void unblock(Long number) {
+        clientRepository.findById(number).ifPresent(client -> {
+                    client.setCountBlockDays(0);
+                    client.setState(ClientStates.STATE_YES_CREDIT);
+                }
+        );
+    }
+
     public void save(Client client) {
         clientRepository.save(client);
     }

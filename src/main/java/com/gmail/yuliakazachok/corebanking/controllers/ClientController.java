@@ -30,6 +30,11 @@ public class ClientController {
         clientService.block(number, countDays);
     }
 
+    @GetMapping("/unblock")
+    public void unblock(@RequestParam("number") Long number) {
+        clientService.unblock(number);
+    }
+
     @PostMapping
     public void save(@RequestBody Client client) {
         clientService.save(client);
