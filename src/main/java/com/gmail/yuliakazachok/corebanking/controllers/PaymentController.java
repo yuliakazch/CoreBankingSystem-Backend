@@ -1,5 +1,6 @@
 package com.gmail.yuliakazachok.corebanking.controllers;
 
+import com.gmail.yuliakazachok.corebanking.dto.PaymentInfo;
 import com.gmail.yuliakazachok.corebanking.entities.Payment;
 import com.gmail.yuliakazachok.corebanking.services.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping("/{id}")
-    public List<Payment> getPaymentsByIdCredit(@PathVariable Integer id) {
+    public List<PaymentInfo> getPaymentsByIdCredit(@PathVariable Integer id) {
         return paymentService.getPaymentsByIdCredit(id);
     }
 

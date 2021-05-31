@@ -1,6 +1,6 @@
 package com.gmail.yuliakazachok.corebanking.controllers;
 
-import com.gmail.yuliakazachok.corebanking.entities.PaymentSchedule;
+import com.gmail.yuliakazachok.corebanking.dto.PaymentScheduleInfo;
 import com.gmail.yuliakazachok.corebanking.services.PaymentScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class PaymentScheduleController {
     private final PaymentScheduleService paymentScheduleService;
 
     @GetMapping("/{id}")
-    public List<PaymentSchedule> getPaymentsScheduleByIdCredit(@PathVariable Integer id) {
+    public List<PaymentScheduleInfo> getPaymentsScheduleByIdCredit(@PathVariable Integer id) {
         return paymentScheduleService.getPaymentScheduleByIdCredit(id);
     }
 }

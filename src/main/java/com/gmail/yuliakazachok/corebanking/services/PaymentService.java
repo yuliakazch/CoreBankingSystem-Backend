@@ -1,5 +1,6 @@
 package com.gmail.yuliakazachok.corebanking.services;
 
+import com.gmail.yuliakazachok.corebanking.dto.PaymentInfo;
 import com.gmail.yuliakazachok.corebanking.entities.states.ClientStates;
 import com.gmail.yuliakazachok.corebanking.entities.states.CreditStates;
 import com.gmail.yuliakazachok.corebanking.entities.states.PaymentScheduleStates;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +27,14 @@ public class PaymentService {
     private final TariffRepository tariffRepository;
     private final СommissionRepository commissionRepository;
 
-    public List<Payment> getPaymentsByIdCredit(Integer idCredit) {
-        return paymentRepository.findAllByIdCreditOrderByDate(idCredit);
+    public List<PaymentInfo> getPaymentsByIdCredit(Integer idCredit) {
+        List<PaymentInfo> listPaymentInfo = new ArrayList<>();
+        List<Payment> listPayments = paymentRepository.findAllByIdCreditOrderByDate(idCredit);
+        listPayments.forEach(payment -> {
+            int interest = commissionRepository.findCommissionById(payment.getIdCommission()).getInterest();
+            listPaymentInfo.add(new PaymentInfo(payment.getDate(), payment.getSum(), interest));
+        });
+        return listPaymentInfo;
     }
 
     @Transactional
