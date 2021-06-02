@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/tariff/**").hasRole("MIDDLE")
                 .antMatchers("/tariff/**", "/client/**", "/credit/**", "/payment/**").hasRole("SENIOR")
-                .antMatchers("/commission/**", "/user/**").permitAll()
+                .antMatchers("/commission/**", "/user/**", "/report/**").permitAll()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
