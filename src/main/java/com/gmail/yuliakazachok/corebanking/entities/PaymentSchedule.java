@@ -30,11 +30,11 @@ public class PaymentSchedule {
     @Column(name = "state")
     private PaymentScheduleStates state;
 
-    public PaymentSchedule(Integer idCredit, Date date, float sum) {
+    public PaymentSchedule(Integer idCredit, Date date, float sum, PaymentScheduleStates state) {
         this.idCredit = idCredit;
         this.date = date;
         this.sum = sum;
-        this.state = PaymentScheduleStates.STATE_NOT_PAID;
+        this.state = state;
     }
 
     public PaymentSchedule() {}

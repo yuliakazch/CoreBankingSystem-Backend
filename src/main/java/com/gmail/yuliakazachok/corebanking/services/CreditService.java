@@ -3,6 +3,7 @@ package com.gmail.yuliakazachok.corebanking.services;
 import com.gmail.yuliakazachok.corebanking.dto.CreditCreate;
 import com.gmail.yuliakazachok.corebanking.dto.CreditInfo;
 import com.gmail.yuliakazachok.corebanking.entities.*;
+import com.gmail.yuliakazachok.corebanking.entities.states.PaymentScheduleStates;
 import com.gmail.yuliakazachok.corebanking.repositories.*;
 import com.gmail.yuliakazachok.corebanking.entities.states.ClientStates;
 import com.gmail.yuliakazachok.corebanking.entities.states.CreditStates;
@@ -73,7 +74,7 @@ public class CreditService {
         for (int i = 0; i < term; i++) {
             calendar.add(Calendar.MONTH, 1);
             date.setTime(calendar.getTime().getTime());
-            paymentScheduleRepository.save(new PaymentSchedule(idCredit, date, sumMonth));
+            paymentScheduleRepository.save(new PaymentSchedule(idCredit, date, sumMonth, PaymentScheduleStates.STATE_NOT_PAID));
         }
     }
 

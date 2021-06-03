@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -39,6 +41,7 @@ public class PaymentService {
 
     @Transactional
     public void savePayment(Payment payment) {
+        paymentRepository.save(payment);
         Integer idCredit = payment.getIdCredit();
         List<PaymentSchedule> listNeedPayments = getRestPayments(idCredit);
         Optional<Credit> optionalCredit = creditRepository.findById(idCredit);
@@ -71,7 +74,7 @@ public class PaymentService {
                 }
                 // если оплатили досрочно, то пересчитываем остаток долга
                 if (countEarlyPayments != 0) {
-                    recalculatePaymentSchedule(credit, listNeedPayments, countMadePayments, countEarlyPayments);
+                    recalculatePaymentSchedule(credit, listNeedPayments, countMadePayments, getTermRest(credit, payment));
                 }
                 // если выплатили все платежи, закрываем кредит
                 if (countMadePayments == listNeedPayments.size()) {
@@ -103,7 +106,7 @@ public class PaymentService {
         return sumReceived - paymentSchedule.getSum();
     }
 
-    private void recalculatePaymentSchedule(Credit credit, List<PaymentSchedule> paymentScheduleList, Integer countMadePayments, Integer countEarlyPayments) {
+    private void recalculatePaymentSchedule(Credit credit, List<PaymentSchedule> paymentScheduleList, Integer countMadePayments, Integer termRest) {
         Optional<AvailableTariff> availableTariff = availableTariffRepository.findById(credit.getIdAvailTariff());
         if (availableTariff.isPresent()) {
             Optional<Tariff> tariff = tariffRepository.findById(availableTariff.get().getIdTariff());
@@ -113,8 +116,7 @@ public class PaymentService {
                     sum += paymentScheduleList.get(i).getSum();
                 }
                 float r = ((float) tariff.get().getRate() / 100 / 12);
-                int term = paymentScheduleList.size() - (countMadePayments - countEarlyPayments);
-                float sumMonth = (float) (sum * ((r * Math.pow(1 + r, term)) / (Math.pow(1 + r, term) - 1)));
+                float sumMonth = (float) (sum * ((r * Math.pow(1 + r, termRest)) / (Math.pow(1 + r, termRest) - 1)));
                 sumMonth = (float) Math.round(sumMonth * 100f) / 100f;
 
                 for (int i = countMadePayments; i < paymentScheduleList.size(); i++) {
@@ -132,5 +134,15 @@ public class PaymentService {
                     client.setState(ClientStates.STATE_NOT_CREDIT);
                     client.setCountBlockDays(0);
                 });
+    }
+
+    private int getTermRest(Credit credit, Payment payment) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(payment.getDate());
+        LocalDate datePayment = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        calendar.setTime(credit.getDateOpen());
+        LocalDate dateOpen = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        int monthsGone = Period.between(dateOpen, datePayment).getMonths();
+        return credit.getTerm() - monthsGone;
     }
 }

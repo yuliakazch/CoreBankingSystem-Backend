@@ -29,4 +29,13 @@ public class Payment {
 
     @Column(name = "sum")
     private Float sum;
+
+    public Payment(Integer idCredit, Date date, Integer idCommission, Float sum) {
+        this.idCredit = idCredit;
+        this.date = date;
+        this.idCommission = idCommission;
+        this.sum = sum;
+    }
+
+    public Payment() {}
 }
